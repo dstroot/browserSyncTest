@@ -4,7 +4,6 @@
 
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
-var reload = browserSync.reload;
 var nodemon = require('gulp-nodemon');
 
 /**
@@ -21,7 +20,7 @@ gulp.task('browser-sync', ['nodemon'], function() {
 
 gulp.task('nodemon', function (cb) {
   var called = false;
-  return nodemon({
+  nodemon({
     script: 'app.js',
     ignore: [
       'gulpfile.js',
@@ -36,11 +35,11 @@ gulp.task('nodemon', function (cb) {
   })
   .on('restart', function () {
     setTimeout(function () {
-      reload({ stream: false });
+      browserSync.reload();
     }, 1000);
   });
 });
 
 gulp.task('default', ['browser-sync'], function () {
-  gulp.watch(['public/*.html'], reload);
+  gulp.watch(['public/*.html'], browserSync.reload);
 });
